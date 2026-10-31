@@ -32,12 +32,28 @@ public class Heap {
         }
     }
 
-    private void buildMinHeap(int[] Datos){
-        //IMPLEMENTAR TOMI :))
+    private void buildMinHeap(int[] Datos) {
+        this.heap = Datos.clone();
+        this.size = heap.length;
+
+        for (int i = (size / 2) - 1; i >= 0; i--) {
+            minHeapify(this.heap, i);
+        }
     }
 
-    public int[] heapSort(){
-        //IMPLEMENTARTOMASPORFAVORTELOPIDOUnU
+    public int[] heapSort() {
+        int[] respaldo = heap.clone();
+        int originalSize = size;
+
+        int[] resultado = new int[originalSize];
+
+        for (int i = 0; i < originalSize; i++) {
+            resultado[i] = extractMin();
+        }
+        this.heap = respaldo;
+        this.size = originalSize;
+
+        return resultado;
     }
 
     public int extractMin(){
@@ -56,6 +72,11 @@ public class Heap {
         A[j] = aux;
     }
 
-    private int hijoIzquierdo(int i){return 2*i+1;}
-    private int hijoDerecho(int i){return 2*i+2;}
+    private int hijoIzquierdo(int i) {
+        return 2 * i + 1;
+    }
+
+    private int hijoDerecho(int i) {
+        return 2 * i + 2;
+    }
 }
