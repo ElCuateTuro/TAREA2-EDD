@@ -10,8 +10,8 @@ public class Main {
         String nombreArchivo = "N2/src/entrada.txt";
         int n = 10000;
         int k = 10;
-        long semilla = 20260515L; // Semilla de prueba
-        int maxValor = 1_000_000;// Ruta del archivo de entrada a probar
+        long semilla = 20260515L;
+        int maxValor = 1_000_000;
 
 
         System.out.println("===== SISTEMA DE HEAPS Y BINOMIAL HEAPS (MIN) =====");
@@ -172,13 +172,13 @@ public class Main {
         for (int[] arr : arreglosOriginales) nEsperado += arr.length;
 
         if (resultado.length != nEsperado) {
-            System.err.println("[ERROR] El tamaño de B es incorrecto.");
+            System.out.println("[ERROR] El tamaño de B es incorrecto.");
             return false;
         }
 
         for (int i = 0; i < resultado.length - 1; i++) {
             if (resultado[i] > resultado[i + 1]) {
-                System.err.println("[ERROR] El arreglo no está ordenado en el índice " + i);
+                System.out.println("[ERROR] El arreglo no está ordenado en el índice " + i);
                 return false;
             }
         }

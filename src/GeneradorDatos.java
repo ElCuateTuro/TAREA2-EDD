@@ -5,16 +5,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class GeneradorDatos {
-
-    /**
-     * Genera un archivo de texto formateado con k arreglos ordenados aleatorios.
-     *
-     * @param n Total de elementos (n >= k)
-     * @param k Cantidad de arreglos
-     * @param nombreArchivo Nombre o ruta del archivo de salida
-     * @param semilla Semilla para reproducir los resultados
-     * @param maxValor Valor entero máximo permitido (ej. 1,000,000)
-     */
     public static void generarArchivo(int n, int k, String nombreArchivo, long semilla, int maxValor) throws IOException {
         if (n < k) {
             throw new IllegalArgumentException("n debe ser mayor o igual a k (n >= k)");
@@ -22,9 +12,8 @@ public class GeneradorDatos {
 
         Random rand = new Random(semilla);
 
-        // 1. Distribuir n elementos entre k arreglos no vacíos
         int[] tamanos = new int[k];
-        Arrays.fill(tamanos, 1); // Asignar al menos 1 elemento a cada arreglo
+        Arrays.fill(tamanos, 1); // Asignar al menos 1 elemento a cada arreglo, le pone 1 a todos los arreglos
         int faltantes = n - k;
 
         for (int i = 0; i < faltantes; i++) {
@@ -32,7 +21,6 @@ public class GeneradorDatos {
             tamanos[idx]++;
         }
 
-        // 2. Generar enteros aleatorios, ordenar cada arreglo y guardar en archivo
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo))) {
             // Primera línea: n k
             bw.write(n + " " + k);
@@ -49,7 +37,7 @@ public class GeneradorDatos {
                 Arrays.sort(arr);
 
                 // Escribir elementos separados por espacios finalizando en -1
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder(); //StringBUilder: Utilizado en poo en persistencia de archivos.. append es como el texto completo de 1 conjunto y recien cuando se recooren todos los datos este es escrito en el txt
                 for (int val : arr) {
                     sb.append(val).append(" ");
                 }
