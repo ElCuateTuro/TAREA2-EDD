@@ -1,39 +1,45 @@
 import java.util.EmptyStackException;
 
 public class Heap {
-    //EN MINHEAP!!
-    private int[] heap;
+    private ElementoMezcla[] heap;
     private int size;
 
-    public Heap(int[] datos){
+    public Heap(ElementoMezcla[] datos) {
         buildMinHeap(datos);
     }
 
-    private void heapify(int i){
+    // Constructor 2: Crea un Heap vacío con capacidad definida k
+    public Heap(int capacidad) {
+        this.heap = new ElementoMezcla[capacidad];
+        this.size = 0;
+    }
+
+    private void heapify(int i) {
         minHeapify(heap, i);
     }
 
-    private void minHeapify(int A[], int i){
+    private void minHeapify(ElementoMezcla[] A, int i) {
         int l = hijoIzquierdo(i);
         int r = hijoDerecho(i);
         int menor = i;
 
-        if(l < size && A[l] < A[i]){
+        // Comparación basada en el campo .valor de cada Elemento
+        if (l < size && A[l].valor < A[i].valor) {
             menor = l;
         }
 
-        if(r < size && A[r] < A[menor]){
+        if (r < size && A[r].valor < A[menor].valor) {
             menor = r;
         }
 
-        if(menor != i){
+        if (menor != i) {
             swap(A, i, menor);
             minHeapify(A, menor);
         }
     }
 
-    private void buildMinHeap(int[] Datos) {
-        this.heap = Datos.clone();
+    private void buildMinHeap(ElementoMezcla[] datos) {
+        this.heap = datos.clone();
         this.size = heap.length;
 
         for (int i = (size / 2) - 1; i >= 0; i--) {
@@ -41,42 +47,46 @@ public class Heap {
         }
     }
 
-    public int[] heapSort() {
-        int[] respaldo = heap.clone();
-        int originalSize = size;
-
-        int[] resultado = new int[originalSize];
-
-        for (int i = 0; i < originalSize; i++) {
-            resultado[i] = extractMin();
+    // INSERTAR DE ABAJO HACIA ARRIBA
+    public void insert(ElementoMezcla elem) {
+        if (size >= heap.length) {
+            throw new IllegalStateException("El Heap está lleno");
         }
-        this.heap = respaldo;
-        this.size = originalSize;
+        heap[size] = elem;
+        int i = size;
+        size++;
 
-        return resultado;
+        while (i > 0 && heap[i].valor < heap[padre(i)].valor) {
+            swap(heap, i, padre(i));
+            i = padre(i);
+        }
     }
 
-    public int extractMin(){
-        if(size < 1){
+    // Extrae el mínimo en O(log k) y reordena hacia abajo
+    public ElementoMezcla extractMin() {
+        if (size < 1) {
             throw new EmptyStackException();
         }
-        int min = heap[0];
+        ElementoMezcla min = heap[0];
         heap[0] = heap[size - 1];
+        heap[size - 1] = null;
         size--;
-        heapify(0);
+        if (size > 0) {
+            heapify(0);
+        }
         return min;
     }
-    private void swap(int[] A, int i, int j){
-        int aux = A[i];
+
+    private void swap(ElementoMezcla[] A, int i, int j) {
+        ElementoMezcla aux = A[i];
         A[i] = A[j];
         A[j] = aux;
     }
 
-    private int hijoIzquierdo(int i) {
-        return 2 * i + 1;
-    }
-
-    private int hijoDerecho(int i) {
-        return 2 * i + 2;
-    }
+    private int padre(int i) { return (i - 1) / 2; }
+    private int hijoIzquierdo(int i) { return 2 * i + 1; }
+    private int hijoDerecho(int i) { return 2 * i + 2; }
+// ESTRUCTURA BASADA EN LAB 8
+    public int getSize() { return size; }
+    public boolean isEmpty() { return size == 0; }
 }
